@@ -2,7 +2,6 @@ namespace DocFlow.Domain.Entities;
 
 using DocFlow.Domain.Enums;
 using DocFlow.Domain.Exceptions;
-using System.Collections.ObjectModel;
 
 public sealed class Document
 {
@@ -157,8 +156,7 @@ public sealed class Document
     {
         EnsureStatus(nameof(Publish), DocumentStatus.Approved);
 
-        if (CurrentValidVersion != null)
-            CurrentValidVersion.MarkObsolete();
+        CurrentValidVersion?.MarkObsolete();
 
         LatestVersion!.MarkPublished();
         Status = DocumentStatus.Published;

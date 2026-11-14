@@ -74,21 +74,14 @@ public class DocumentWorkflowTests
     }
 
     [Theory]
-    [InlineData(DocumentStatus.Draft)]
     [InlineData(DocumentStatus.Submitted)]
     [InlineData(DocumentStatus.UnderReview)]
-    [InlineData(DocumentStatus.Returned)]
     [InlineData(DocumentStatus.Approved)]
     [InlineData(DocumentStatus.Published)]
     public void Submit_InvalidStatus_ThrowsInvalidDocumentStatusTransitionException(DocumentStatus status)
     {
         // Arrange
         var doc = DocumentTestHelper.AdvanceTo(status);
-        var validFromStatuses = new[] { DocumentStatus.Draft, DocumentStatus.Returned };
-
-        if (validFromStatuses.Contains(status))
-            return; // Skip valid transitions
-
         var originalStatus = doc.Status;
         var originalVersionCount = doc.Versions.Count;
 
@@ -100,7 +93,6 @@ public class DocumentWorkflowTests
 
     [Theory]
     [InlineData(DocumentStatus.Draft)]
-    [InlineData(DocumentStatus.Submitted)]
     [InlineData(DocumentStatus.UnderReview)]
     [InlineData(DocumentStatus.Returned)]
     [InlineData(DocumentStatus.Approved)]
@@ -109,23 +101,18 @@ public class DocumentWorkflowTests
     {
         // Arrange
         var doc = DocumentTestHelper.AdvanceTo(status);
+        var originalStatus = doc.Status;
+        var originalVersionCount = doc.Versions.Count;
 
-        if (status != DocumentStatus.Submitted)
-        {
-            var originalStatus = doc.Status;
-            var originalVersionCount = doc.Versions.Count;
-
-            // Act & Assert
-            Assert.Throws<InvalidDocumentStatusTransitionException>(() => doc.StartReview());
-            Assert.Equal(originalStatus, doc.Status);
-            Assert.Equal(originalVersionCount, doc.Versions.Count);
-        }
+        // Act & Assert
+        Assert.Throws<InvalidDocumentStatusTransitionException>(() => doc.StartReview());
+        Assert.Equal(originalStatus, doc.Status);
+        Assert.Equal(originalVersionCount, doc.Versions.Count);
     }
 
     [Theory]
     [InlineData(DocumentStatus.Draft)]
     [InlineData(DocumentStatus.Submitted)]
-    [InlineData(DocumentStatus.UnderReview)]
     [InlineData(DocumentStatus.Returned)]
     [InlineData(DocumentStatus.Approved)]
     [InlineData(DocumentStatus.Published)]
@@ -133,23 +120,18 @@ public class DocumentWorkflowTests
     {
         // Arrange
         var doc = DocumentTestHelper.AdvanceTo(status);
+        var originalStatus = doc.Status;
+        var originalVersionCount = doc.Versions.Count;
 
-        if (status != DocumentStatus.UnderReview)
-        {
-            var originalStatus = doc.Status;
-            var originalVersionCount = doc.Versions.Count;
-
-            // Act & Assert
-            Assert.Throws<InvalidDocumentStatusTransitionException>(() => doc.Return("reason"));
-            Assert.Equal(originalStatus, doc.Status);
-            Assert.Equal(originalVersionCount, doc.Versions.Count);
-        }
+        // Act & Assert
+        Assert.Throws<InvalidDocumentStatusTransitionException>(() => doc.Return("reason"));
+        Assert.Equal(originalStatus, doc.Status);
+        Assert.Equal(originalVersionCount, doc.Versions.Count);
     }
 
     [Theory]
     [InlineData(DocumentStatus.Draft)]
     [InlineData(DocumentStatus.Submitted)]
-    [InlineData(DocumentStatus.UnderReview)]
     [InlineData(DocumentStatus.Returned)]
     [InlineData(DocumentStatus.Approved)]
     [InlineData(DocumentStatus.Published)]
@@ -157,17 +139,13 @@ public class DocumentWorkflowTests
     {
         // Arrange
         var doc = DocumentTestHelper.AdvanceTo(status);
+        var originalStatus = doc.Status;
+        var originalVersionCount = doc.Versions.Count;
 
-        if (status != DocumentStatus.UnderReview)
-        {
-            var originalStatus = doc.Status;
-            var originalVersionCount = doc.Versions.Count;
-
-            // Act & Assert
-            Assert.Throws<InvalidDocumentStatusTransitionException>(() => doc.Approve());
-            Assert.Equal(originalStatus, doc.Status);
-            Assert.Equal(originalVersionCount, doc.Versions.Count);
-        }
+        // Act & Assert
+        Assert.Throws<InvalidDocumentStatusTransitionException>(() => doc.Approve());
+        Assert.Equal(originalStatus, doc.Status);
+        Assert.Equal(originalVersionCount, doc.Versions.Count);
     }
 
     [Theory]
@@ -175,23 +153,18 @@ public class DocumentWorkflowTests
     [InlineData(DocumentStatus.Submitted)]
     [InlineData(DocumentStatus.UnderReview)]
     [InlineData(DocumentStatus.Returned)]
-    [InlineData(DocumentStatus.Approved)]
     [InlineData(DocumentStatus.Published)]
     public void Publish_InvalidStatus_ThrowsInvalidDocumentStatusTransitionException(DocumentStatus status)
     {
         // Arrange
         var doc = DocumentTestHelper.AdvanceTo(status);
+        var originalStatus = doc.Status;
+        var originalVersionCount = doc.Versions.Count;
 
-        if (status != DocumentStatus.Approved)
-        {
-            var originalStatus = doc.Status;
-            var originalVersionCount = doc.Versions.Count;
-
-            // Act & Assert
-            Assert.Throws<InvalidDocumentStatusTransitionException>(() => doc.Publish());
-            Assert.Equal(originalStatus, doc.Status);
-            Assert.Equal(originalVersionCount, doc.Versions.Count);
-        }
+        // Act & Assert
+        Assert.Throws<InvalidDocumentStatusTransitionException>(() => doc.Publish());
+        Assert.Equal(originalStatus, doc.Status);
+        Assert.Equal(originalVersionCount, doc.Versions.Count);
     }
 
     [Fact]
