@@ -8,5 +8,6 @@ public enum DocumentStatus
     Approved,
     Rejected,
     Published,
-    Archived
+    Archived,
+    Returned
 }
