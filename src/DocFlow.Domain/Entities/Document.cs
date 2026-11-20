@@ -143,7 +143,7 @@ public sealed class Document
         ReturnReason = reason.Trim();
         Status = DocumentStatus.Returned;
     }
-    //Hi
+
     /// <summary>Transitions document from UnderReview to Approved status.</summary>
     public void Approve()
     {
